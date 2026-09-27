@@ -18,7 +18,7 @@
 
 **▶ [Try it live in your browser](https://get-your-knowledge-here.github.io/cat-facts/)**: random facts, the fact of the day and search, with no install.
 
-**▶ [Watch the 49-second demo](https://youtube.com/shorts/Eu_HYvdBSn4)** on YouTube. More short package videos on [@qckx](https://www.youtube.com/@qckx).
+**▶ [Watch the 49-second demo](https://youtube.com/shorts/Eu_HYvdBSn4)** on YouTube. More short package videos on [@qckx](https://www.youtube.com/@qckx). All packages: [@gykh on npm](https://www.npmjs.com/org/gykh).
 
 ```bash
 npx @gykh/cat-facts
