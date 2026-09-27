@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Random Cat Facts Generator | Fact of the Day &amp; Search</title>
+  <meta name="description" content="Free random cat facts generator. Get a surprising cat fact, today's cat fact of the day, or search 108 curated facts about cats. Share your favorite. Also an offline npm package and CLI." />
+  <meta name="keywords" content="cat facts, random cat facts, fun cat facts, cat fact of the day, facts about cats, cat trivia, cat facts generator, cat facts api, cat facts npm, cat facts cli" />
+  <meta name="author" content="Sylvester Das" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://get-your-knowledge-here.github.io/cat-facts/" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/logo-192.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#0d1117" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Cat Facts" />
+  <meta property="og:title" content="Random Cat Facts: One Surprising Fact at a Time" />
+  <meta property="og:description" content="Did you know a group of cats is called a clowder? Get a random cat fact, the fact of the day, or search 108 of them." />
+  <meta property="og:url" content="https://get-your-knowledge-here.github.io/cat-facts/" />
+  <meta property="og:image" content="https://get-your-knowledge-here.github.io/cat-facts/assets/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="cat-facts: Random, Daily, Search, CLI" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://get-your-knowledge-here.github.io/cat-facts/assets/og-image.jpg" />
+  <meta name="twitter:title" content="Random Cat Facts: One Surprising Fact at a Time" />
+  <meta name="twitter:description" content="Did you know a group of cats is called a clowder? Get a random cat fact, the fact of the day, or search 108 of them." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://get-your-knowledge-here.github.io/cat-facts/#app",
+        "name": "Random Cat Facts Generator",
+        "url": "https://get-your-knowledge-here.github.io/cat-facts/",
+        "image": "https://get-your-knowledge-here.github.io/cat-facts/assets/og-image.jpg",
+        "applicationCategory": "EntertainmentApplication",
+        "operatingSystem": "Any (web browser)",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "featureList": ["Random cat facts", "Cat fact of the day", "Search cat facts", "Shareable fact links"],
+        "author": { "@id": "https://get-your-knowledge-here.github.io/cat-facts/#author" },
+        "publisher": { "@id": "https://www.minifyn.com/#org" }
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "name": "@gykh/cat-facts",
+        "description": "Zero-dependency, offline cat facts library and CLI for Node.js with random facts, fact of the day and search.",
+        "codeRepository": "https://github.com/get-your-knowledge-here/cat-facts",
+        "programmingLanguage": ["JavaScript", "TypeScript"],
+        "runtimePlatform": "Node.js",
+        "license": "https://opensource.org/licenses/MIT",
+        "author": { "@id": "https://get-your-knowledge-here.github.io/cat-facts/#author" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://get-your-knowledge-here.github.io/cat-facts/#author",
+        "name": "Sylvester Das",
+        "url": "https://www.sylvesterdas.com",
+        "worksFor": { "@id": "https://www.minifyn.com/#org" }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://www.minifyn.com/#org",
+        "name": "MiniFyn",
+        "url": "https://www.minifyn.com",
+        "slogan": "The simplest way to shorten, share, and track your links."
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Where do these cat facts come from?", "acceptedAnswer": { "@type": "Answer", "text": "They are a hand-curated list of well-established facts about cat biology, behavior, breeds and history. Popular myths and shaky statistics were left out." } },
+          { "@type": "Question", "name": "How does the cat fact of the day work?", "acceptedAnswer": { "@type": "Answer", "text": "The fact is picked from the current UTC date, so everyone sees the same fact all day and a new one the next day." } },
+          { "@type": "Question", "name": "Is there a cat facts API I can use in my code?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Install the free, MIT-licensed npm package @gykh/cat-facts. It bundles every fact, works offline with zero dependencies, and includes TypeScript types and a CLI." } },
+          { "@type": "Question", "name": "Can I get cat facts in my terminal?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Run npx @gykh/cat-facts for a random fact, or add --today for the fact of the day." } }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-elevated: #21262d;
+      --border: #30363d;
+      --border-focus: #58a6ff;
+      --text: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79c0ff;
+      --accent-subtle: rgba(56, 139, 253, 0.15);
+      --success: #3fb950;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --transition: all 0.18s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      padding: 1rem 1.5rem;
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      display: block;
+    }
+
+    .logo-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .logo-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1080px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .playground-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      align-items: center;
+      background: var(--surface-elevated);
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .control-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .shift-badge {
+      background: var(--accent-subtle);
+      color: var(--accent);
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .slider-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .btn:hover {
+      background: var(--surface-elevated);
+      border-color: var(--border-focus);
+    }
+
+    .btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .alphabet-mapping {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      color: var(--text-muted);
+    }
+
+    .alphabet-mapping span.plain {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .alphabet-mapping span.cipher {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .editors-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .editors-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .editor-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .pane-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.925rem;
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      min-height: 160px;
+      resize: vertical;
+      outline: none;
+      transition: var(--transition);
+      line-height: 1.6;
+    }
+
+    textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+    }
+
+    .copy-btn {
+      background: transparent;
+      border: none;
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .copy-btn:hover {
+      text-decoration: underline;
+    }
+
+    .cracker-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .section-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .cracker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.75rem;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+    }
+
+    .crack-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .crack-card:hover {
+      border-color: var(--border-focus);
+      transform: translateY(-1px);
+    }
+
+    .crack-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .crack-card-text {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text);
+      word-break: break-all;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--success);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: auto;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer p + p {
+      margin-top: 0.4rem;
+    }
+
+    .intro {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 760px;
+    }
+
+    .intro strong {
+      color: var(--text);
+    }
+
+    .share-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .share-row a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .share-row a:hover {
+      text-decoration: underline;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0d1117;
+    }
+
+    .btn.primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .promo {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.14), rgba(88, 166, 255, 0.08));
+      border: 1px solid rgba(124, 58, 237, 0.45);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .promo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .promo-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      transition: var(--transition);
+    }
+
+    .promo-card:hover {
+      border-color: #a78bfa;
+      transform: translateY(-1px);
+    }
+
+    .promo-card strong {
+      font-size: 0.95rem;
+    }
+
+    .promo-card span {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    .promo-card em {
+      font-style: normal;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #a78bfa;
+      margin-top: auto;
+    }
+
+    .content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem 2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .content h2 {
+      font-size: 1.05rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .content p + p,
+    .content ol {
+      margin-top: 0.5rem;
+    }
+
+    .content ol {
+      padding-left: 1.2rem;
+    }
+
+    .content code,
+    .content pre {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text);
+    }
+
+    .content pre {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      overflow-x: auto;
+    }
+
+    .content a {
+      color: var(--accent);
+    }
+
+    .faq {
+      grid-column: 1 / -1;
+    }
+
+    .faq details {
+      border-top: 1px solid var(--border);
+      padding: 0.75rem 0;
+    }
+
+    .faq summary {
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .faq details p {
+      margin-top: 0.5rem;
+    }
+    .fact-card {
+      min-height: 9rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 1.35rem;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+    .fact-card .paw { font-size: 2.2rem; flex-shrink: 0; }
+    .fact-meta { color: var(--text-muted); font-size: 0.85rem; font-family: var(--font-mono); margin-top: 0.75rem; }
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text);
+      font: inherit;
+    }
+    .search-input:focus { outline: none; border-color: var(--border-focus); }
+    .results { list-style: none; margin-top: 1rem; display: grid; gap: 0.5rem; }
+    .results li {
+      padding: 0.75rem 1rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      line-height: 1.5;
+    }
+    .results li:hover { border-color: var(--accent); }
+    .results mark { background: var(--accent-subtle); color: var(--accent); border-radius: 3px; padding: 0 2px; }
+    @media (max-width: 600px) { .fact-card { font-size: 1.1rem; padding: 1rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo-group">
+        <img class="logo-icon" src="assets/logo-96.png" width="40" height="40" alt="Get Your Knowledge Here logo" />
+        <div>
+          <h1 class="logo-title">Random Cat Facts</h1>
+          <p class="logo-subtitle">Free &amp; offline · Powered by @gykh/cat-facts</p>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a class="nav-link" href="https://github.com/get-your-knowledge-here/cat-facts" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="nav-link" href="https://www.npmjs.com/package/@gykh/cat-facts" target="_blank" rel="noopener">npm ↗</a>
+        <a class="nav-link" href="https://www.minifyn.com/?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=nav" target="_blank" rel="noopener">MiniFyn ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="intro">Get a <strong>random cat fact</strong>, see today's <strong>cat fact of the day</strong>, or <strong>search</strong> <span id="countIntro">108</span> hand-picked facts about cats. Found a good one? Share it with a link.</p>
+
+    <div class="playground-card">
+      <div class="fact-card" aria-live="polite"><span class="paw">🐱</span><span id="factText"></span></div>
+      <p class="fact-meta" id="factMeta"></p>
+      <div class="btn-group" style="margin-top:1rem">
+        <button class="btn primary" id="btnNext">Another fact</button>
+        <button class="btn" id="btnToday">Fact of the day</button>
+        <button class="btn" id="btnCopy">Copy</button>
+        <button class="btn" id="btnShare">Share</button>
+      </div>
+    </div>
+
+    <div class="playground-card">
+      <div>
+        <h2 class="section-title">Search cat facts</h2>
+        <p class="section-desc">Try <em>purr</em>, <em>whiskers</em>, <em>sleep</em> or <em>Egypt</em>. Click a result to show it above.</p>
+      </div>
+      <input class="search-input" id="searchInput" type="search" placeholder="Search facts..." aria-label="Search cat facts" />
+      <p class="fact-meta" id="searchMeta"></p>
+      <ul class="results" id="results"></ul>
+    </div>
+
+    <section class="promo" aria-labelledby="promoTitle">
+      <div>
+        <h2 class="section-title" id="promoTitle">Free privacy &amp; sharing tools from MiniFyn</h2>
+        <p class="section-desc">This playground is made by the team behind <a href="https://www.minifyn.com/?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=promo-intro" target="_blank" rel="noopener" style="color:#a78bfa">MiniFyn</a>, the simplest way to shorten, share, and track your links.</p>
+      </div>
+      <div class="promo-grid">
+        <a class="promo-card" href="https://www.minifyn.com/?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=promo-minifyn" target="_blank" rel="noopener">
+          <strong>🔗 MiniFyn</strong>
+          <span>Lightning-fast edge link shortening, bio-links, QR code generator and link analytics with built-in threat protection.</span>
+          <em>Shorten a link free →</em>
+        </a>
+        <a class="promo-card" href="https://www.minifyn.com/scamguard?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=promo-scamguard" target="_blank" rel="noopener">
+          <strong>🛡️ ScamGuard</strong>
+          <span>Inspect links, QR codes and redirect chains for phishing before you open them.</span>
+          <em>Check a link →</em>
+        </a>
+        <a class="promo-card" href="https://www.minifyn.com/censorfyn?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=promo-censorfyn" target="_blank" rel="noopener">
+          <strong>🙈 CensorFyn</strong>
+          <span>Auto-detect and irreversibly redact faces, passports, credit cards, PII text and QR codes, 100% offline.</span>
+          <em>Redact media →</em>
+        </a>
+        <a class="promo-card" href="https://www.minifyn.com/clipfyn?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=promo-clipfyn" target="_blank" rel="noopener">
+          <strong>🎬 ClipFyn</strong>
+          <span>Inspect, crop and fit videos on-device for compatible sharing, with no quality loss or uploads.</span>
+          <em>Prep a video →</em>
+        </a>
+      </div>
+      <p class="section-desc">Get them free:
+        <a href="https://chromewebstore.google.com/detail/scamguard-link-checker/cendbppkhplamddjfnbhgbejnpmfmlbi?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=promo-stores" target="_blank" rel="noopener" style="color:#a78bfa">ScamGuard for Chrome</a> ·
+        <a href="https://play.google.com/store/apps/details?id=com.minifyn.linkguard&amp;referrer=utm_source%3Dcat-facts%26utm_medium%3Dreferral%26utm_campaign%3Dplayground%26utm_content%3Dpromo-stores" target="_blank" rel="noopener" style="color:#a78bfa">ScamGuard for Android</a> ·
+        <a href="https://play.google.com/store/apps/details?id=com.minifyn.censorfyn&amp;referrer=utm_source%3Dcat-facts%26utm_medium%3Dreferral%26utm_campaign%3Dplayground%26utm_content%3Dpromo-stores" target="_blank" rel="noopener" style="color:#a78bfa">CensorFyn for Android</a> ·
+        <a href="https://play.google.com/store/apps/details?id=com.minifyn.clipfyn&amp;referrer=utm_source%3Dcat-facts%26utm_medium%3Dreferral%26utm_campaign%3Dplayground%26utm_content%3Dpromo-stores" target="_blank" rel="noopener" style="color:#a78bfa">ClipFyn for Android</a>
+      </p>
+    </section>
+
+    <section class="content">
+      <div>
+        <h2>Fun facts about cats</h2>
+        <p>Cats spend about two thirds of their lives asleep, can rotate their ears about 180 degrees, and have whiskers on the backs of their front legs. Every fact here was picked for being true and surprising; popular myths were left out.</p>
+      </div>
+      <div>
+        <h2>How to get a cat fact every day</h2>
+        <ol>
+          <li><strong>Bookmark this page</strong> and press <em>Fact of the day</em>. It changes at midnight UTC.</li>
+          <li><strong>In your terminal:</strong> run <code>npx @gykh/cat-facts --today</code>.</li>
+          <li><strong>On every new shell:</strong> <code>npm i -g @gykh/cat-facts</code> and add <code>cat-facts</code> to your <code>~/.zshrc</code> or <code>~/.bashrc</code>.</li>
+        </ol>
+      </div>
+      <div>
+        <h2>Use it in your code</h2>
+        <p>Every fact on this page ships in a free, MIT-licensed, zero-dependency npm package with TypeScript types and a CLI. No API key, no network, no rate limits.</p>
+        <pre>npm install @gykh/cat-facts
+
+import { randomFact, factOfTheDay, search } from "@gykh/cat-facts";
+randomFact();     // "A group of cats is called a clowder."
+search("purr");   // every fact about purring</pre>
+        <p><a href="https://github.com/get-your-knowledge-here/cat-facts" target="_blank" rel="noopener">Star it on GitHub</a> · <a href="https://www.npmjs.com/package/@gykh/cat-facts" target="_blank" rel="noopener">View on npm</a></p>
+      </div>
+      <div class="faq">
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary>Where do these cat facts come from?</summary>
+          <p>They are a hand-curated list of well-established facts about cat biology, behavior, breeds and history. Popular myths and shaky statistics were left out.</p>
+        </details>
+        <details>
+          <summary>How does the cat fact of the day work?</summary>
+          <p>The fact is picked from the current UTC date, so everyone sees the same fact all day and a new one the next day. The npm package uses the same rule.</p>
+        </details>
+        <details>
+          <summary>Is there a cat facts API I can use in my code?</summary>
+          <p>Yes. Install <code>@gykh/cat-facts</code>. It bundles every fact, works offline with zero dependencies, and includes TypeScript types and a CLI.</p>
+        </details>
+        <details>
+          <summary>How do I share a cat fact?</summary>
+          <p>Press <em>Share</em> and send the link; it opens this page on the same fact. To get a short, tidy link and see how many people opened it, <a href="https://www.minifyn.com/?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=faq" target="_blank" rel="noopener">shorten it with MiniFyn</a>.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <footer>
+    <p>MIT License © 2021-2026 <a href="https://github.com/get-your-knowledge-here/cat-facts" target="_blank" rel="noopener">get-your-knowledge-here</a> • Created by <a href="https://www.sylvesterdas.com" target="_blank" rel="noopener">Sylvester Das</a></p>
+    <p>A free tool by <a href="https://www.minifyn.com/?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=footer" target="_blank" rel="noopener">MiniFyn</a>: the simplest way to shorten, share, and track your links · <a href="https://www.minifyn.com/scamguard?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=footer" target="_blank" rel="noopener">ScamGuard</a> · <a href="https://www.minifyn.com/censorfyn?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=footer" target="_blank" rel="noopener">CensorFyn</a> · <a href="https://www.minifyn.com/clipfyn?utm_source=cat-facts&amp;utm_medium=referral&amp;utm_campaign=playground&amp;utm_content=footer" target="_blank" rel="noopener">ClipFyn</a></p>
+  </footer>
+
+  <script>
+    // Generated from facts.js by scripts/sync-docs.js. Do not edit by hand.
+    const FACTS = /*FACTS*/["Cats spend roughly two thirds of their lives asleep, often 12 to 16 hours a day.","A group of cats is called a clowder.","A group of kittens is called a kindle.","A male cat is called a tom, and an unspayed female is called a queen.","Cats have 32 muscles in each ear, letting them swivel their ears independently.","A cat can rotate its ears about 180 degrees.","Cats can hear higher-pitched sounds than dogs or humans, up to around 64 kHz.","A cat's nose print is unique, much like a human fingerprint.","Cats have a third eyelid, called the nictitating membrane, that helps protect the eye.","Cats need only about one sixth of the light humans need to see.","A layer of tissue called the tapetum lucidum makes cats' eyes shine in the dark.","Cats see blues and greens but have trouble telling reds from greens.","Adult cats have 30 teeth; kittens have 26 baby teeth.","Cats cannot taste sweetness because they lack a working sweet taste receptor.","A cat's rough tongue is covered in tiny backward-facing hooks called papillae.","Cats walk like camels and giraffes, moving both right legs and then both left legs.","Cats are digitigrade: they walk on their toes, not the soles of their feet.","Most cats have five toes on each front paw and four on each back paw.","Cats with extra toes are called polydactyl.","Ernest Hemingway's home in Key West is still home to dozens of polydactyl cats.","Cats have about 230 bones, more than the 206 in an adult human.","A cat's collarbone is not attached to other bones, helping it squeeze through tight spaces.","Cats can jump up to six times their body length in a single leap.","The righting reflex lets a falling cat twist in midair to land on its feet.","Kittens start to develop the righting reflex at around three to four weeks old.","A domestic cat can sprint at about 30 miles per hour over short distances.","Cats' claws curve downward, which makes climbing down a tree head-first difficult.","Cats scratch to mark territory, stretch their muscles and shed old claw sheaths.","Cats have scent glands on their cheeks, paws and the base of their tail.","When a cat rubs its face on you, it is marking you with its scent.","A slow blink from a cat is a sign of trust, sometimes called a cat kiss.","Adult cats rarely meow at each other; meowing is mostly for talking to humans.","Kittens meow to get their mother's attention, and most cats outgrow it with other cats.","Cats purr at a frequency of roughly 25 to 150 Hz.","Cats purr when content, but also sometimes when stressed, hurt or giving birth.","Scientists are still not certain exactly how cats produce a purr.","Big cats that can roar, such as lions and tigers, generally cannot purr continuously.","Cheetahs cannot roar, but they can purr.","A cat's whiskers are roughly as wide as its body and help it judge tight gaps.","Whiskers are called vibrissae and are packed with nerve endings.","Cats have whiskers on the backs of their front legs, too.","Cats usually have 12 whiskers on each side of the face, arranged in four rows.","Cats are obligate carnivores and need nutrients, like taurine, found in animal tissue.","Taurine deficiency can cause blindness and heart disease in cats.","Many adult cats are lactose intolerant, so milk can upset their stomachs.","Onions, garlic, grapes and lilies are toxic to cats.","Even small amounts of lily pollen can cause kidney failure in cats.","A cat's normal body temperature is about 38 to 39 °C (100.5 to 102.5 °F).","A cat's heart beats about 140 to 220 times per minute.","Cats sweat mainly through the pads of their paws.","Cats spend up to half of their waking hours grooming themselves.","Grooming helps cats regulate body temperature and spread natural skin oils.","Hairballs form because cats swallow loose fur while grooming.","Cats have a Jacobson's organ in the roof of the mouth for \"tasting\" scents.","The open-mouthed grimace cats make when sniffing is called the flehmen response.","A cat's sense of smell is roughly 14 times stronger than a human's.","Catnip contains nepetalactone, a compound that triggers a playful response in many cats.","Sensitivity to catnip is inherited; roughly a third of cats show no reaction.","Kittens usually do not respond to catnip until they are a few months old.","Silver vine and valerian root can excite some cats that ignore catnip.","Cats were domesticated from the African wildcat, Felis lybica.","Cats probably began living alongside humans around 10,000 years ago in the Near East.","A cat was found buried with a human on Cyprus about 9,500 years ago.","Ancient Egyptians revered cats and linked them with the goddess Bastet.","Egyptians mummified many cats, and archaeologists have found them by the hundreds of thousands.","Cats were kept on ships for centuries to control rats and mice.","The domestic cat's scientific name is Felis catus.","There are more than 70 recognized cat breeds, depending on the registry.","Most orange tabby cats are male, because the orange gene sits on the X chromosome.","Calico and tortoiseshell cats are almost always female.","Male calico cats are rare and usually have an extra X chromosome.","Tabby is a coat pattern, not a breed.","Many tabby cats have a distinctive M-shaped marking on the forehead.","Siamese cats have temperature-sensitive coat color, so their cooler extremities are darker.","Siamese kittens are born almost entirely white and develop their points as they grow.","White cats with blue eyes are more likely to be born deaf.","Cats can have heterochromia, meaning each eye is a different color.","All kittens are born with blue eyes; their adult eye color develops over several weeks.","Kittens are born with their eyes closed and usually open them at 7 to 10 days old.","Kittens are born deaf and their ear canals open at around two weeks old.","A cat's pregnancy lasts about 63 to 65 days.","A typical litter has three to five kittens.","Kittens in the same litter can have different fathers.","Female cats can become pregnant as early as four months old.","The Maine Coon is one of the largest domestic cat breeds.","The Sphynx looks hairless but is usually covered in fine, peach-fuzz down.","Scottish Fold cats get their folded ears from a gene that also affects cartilage throughout the body.","The Turkish Van is famous for enjoying water more than most cats.","The average indoor cat lives about 12 to 18 years.","Indoor cats generally live longer than cats allowed to roam outside.","Creme Puff, a cat from Texas, lived to 38, according to Guinness World Records.","Cats are crepuscular, meaning they are most active at dawn and dusk.","Cats often bring prey to their owners, likely as a hunting behavior rather than a gift.","A cat's tail held straight up usually signals a friendly greeting.","A puffed-up tail means a cat is frightened or trying to look bigger.","Kneading with the paws is a behavior kittens use while nursing and many adults keep.","Cats show affection by head-butting, a behavior called bunting.","Cats can recognize their owner's voice, even when they choose to ignore it.","Studies show many cats can learn their own names.","Cats often choose cardboard boxes because enclosed spaces make them feel safe.","Cats have a wider field of view than humans, about 200 degrees.","Cats struggle to see things right under their nose, so they rely on whiskers up close.","Chirping or chattering at birds may be a sign of excitement or frustration.","Isaac Newton is often credited with inventing the cat flap, though there is no firm evidence.","The first cat show was held at the Crystal Palace in London in 1871.","Félicette, a French cat, went to space in 1963 and returned safely.","Larry, the Chief Mouser to the Cabinet Office, has lived at 10 Downing Street since 2011.","Cats have been found in almost every country and on every continent except Antarctica."];
+
+    const DAY_MS = 86400000;
+    const factText = document.getElementById('factText');
+    const factMeta = document.getElementById('factMeta');
+    const searchInput = document.getElementById('searchInput');
+    const searchMeta = document.getElementById('searchMeta');
+    const results = document.getElementById('results');
+    const toast = document.getElementById('toast');
+    let current = 0;
+
+    document.getElementById('countIntro').textContent = FACTS.length;
+
+    // Same rule as factOfTheDay() in the package.
+    function todayIndex() {
+      const day = Math.floor(Date.now() / DAY_MS);
+      return ((day % FACTS.length) + FACTS.length) % FACTS.length;
+    }
+
+    function show(index, label) {
+      current = index;
+      factText.textContent = FACTS[index];
+      factMeta.textContent = `${label} · fact #${index + 1} of ${FACTS.length}`;
+    }
+
+    function randomIndex() {
+      if (FACTS.length < 2) return 0;
+      let i;
+      do { i = Math.floor(Math.random() * FACTS.length); } while (i === current);
+      return i;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function showToast(message = 'Copied to clipboard!') {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, message.length > 30 ? 3200 : 1800);
+    }
+
+    function runSearch() {
+      const term = searchInput.value.trim().toLowerCase();
+      results.innerHTML = '';
+      if (!term) { searchMeta.textContent = ''; return; }
+      const hits = [];
+      FACTS.forEach((f, i) => { if (f.toLowerCase().includes(term)) hits.push(i); });
+      searchMeta.textContent = `${hits.length} fact${hits.length === 1 ? '' : 's'} match "${searchInput.value.trim()}" · CLI: npx @gykh/cat-facts --search ${term}`;
+      const re = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      for (const i of hits) {
+        const li = document.createElement('li');
+        li.innerHTML = escapeHtml(FACTS[i]).replace(re, (m) => `<mark>${m}</mark>`);
+        li.addEventListener('click', () => {
+          show(i, 'Search result');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        results.appendChild(li);
+      }
+    }
+
+    document.getElementById('btnNext').addEventListener('click', () => show(randomIndex(), 'Random fact'));
+    document.getElementById('btnToday').addEventListener('click', () => show(todayIndex(), 'Fact of the day'));
+    document.getElementById('btnCopy').addEventListener('click', () => {
+      navigator.clipboard.writeText(`🐱 ${FACTS[current]}`).then(() => showToast());
+    });
+    searchInput.addEventListener('input', runSearch);
+
+    // Share links: #f=<n> opens this page on fact n (1-based).
+    document.getElementById('btnShare').addEventListener('click', async () => {
+      const url = `${location.origin}${location.pathname}#f=${current + 1}`;
+      const shareData = { title: 'Cat fact', text: `🐱 ${FACTS[current]}`, url };
+      if (navigator.share && matchMedia('(pointer: coarse)').matches) {
+        try { await navigator.share(shareData); return; } catch (e) { if (e.name === 'AbortError') return; }
+      }
+      navigator.clipboard.writeText(url).then(() => showToast('Fact link copied! Shorten it with MiniFyn for click stats.'));
+    });
+
+    function loadShared() {
+      const match = location.hash.match(/^#f=(\d+)$/);
+      const n = match ? Number(match[1]) : 0;
+      if (n >= 1 && n <= FACTS.length) show(n - 1, 'Shared fact');
+      else show(todayIndex(), 'Fact of the day');
+    }
+
+    window.addEventListener('hashchange', loadShared);
+    loadShared();
+  </script>
+</body>
+</html>

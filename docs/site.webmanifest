@@ -1,0 +1,14 @@
+{
+  "name": "Random Cat Facts",
+  "short_name": "Cat Facts",
+  "description": "Random cat facts, the fact of the day and search, in your browser.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": [
+    { "src": "assets/logo-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/logo-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
