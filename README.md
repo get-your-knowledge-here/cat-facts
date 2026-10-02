@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://get-your-knowledge-here.github.io/cat-facts/"><img src="https://raw.githubusercontent.com/get-your-knowledge-here/cat-facts/main/docs/assets/banner.jpg" alt="cat-facts: Random · Daily · Search · CLI" width="100%" /></a>
+  <a href="https://gykh.sylvesterdas.com/cat-facts/"><img src="https://raw.githubusercontent.com/get-your-knowledge-here/cat-facts/main/docs/assets/banner.jpg" alt="cat-facts: Random · Daily · Search · CLI" width="100%" /></a>
 </p>
 
 # @gykh/cat-facts
@@ -13,10 +13,10 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178C6?style=flat-square&logo=typescript&logoColor=white)](./index.d.ts)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](./LICENSE)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg?style=flat-square)](./package.json)
-[![Live Demo](https://img.shields.io/badge/demo-live-58a6ff.svg?style=flat-square)](https://get-your-knowledge-here.github.io/cat-facts/)
+[![Live Demo](https://img.shields.io/badge/demo-live-58a6ff.svg?style=flat-square)](https://gykh.sylvesterdas.com/cat-facts/)
 [![MiniFyn](https://img.shields.io/badge/by-MiniFyn-7c3aed.svg?style=flat-square)](https://www.minifyn.com)
 
-**▶ [Try it live in your browser](https://get-your-knowledge-here.github.io/cat-facts/)**: random facts, the fact of the day and search, with no install.
+**▶ [Try it live in your browser](https://gykh.sylvesterdas.com/cat-facts/)**: random facts, the fact of the day and search, with no install.
 
 **▶ [Watch the 49-second demo](https://youtube.com/shorts/Eu_HYvdBSn4)** on YouTube. More short package videos on [@qckx](https://www.youtube.com/@qckx). All packages: [@gykh on npm](https://www.npmjs.com/org/gykh).
 
@@ -178,7 +178,7 @@ v1 fetched facts from `cat-fact.herokuapp.com`. That API no longer responds, so 
 
 ## Interactive Demo
 
-**Live playground:** [https://get-your-knowledge-here.github.io/cat-facts/](https://get-your-knowledge-here.github.io/cat-facts/)
+**Live playground:** [https://gykh.sylvesterdas.com/cat-facts/](https://gykh.sylvesterdas.com/cat-facts/)
 
 Draw random facts, see today's fact, search every fact and share your favorite, entirely in your browser. To run it offline, open [`docs/index.html`](./docs/index.html) locally.
 
